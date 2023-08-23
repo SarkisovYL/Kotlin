@@ -1,16 +1,16 @@
 package module_10.lesson4
 
 abstract class Aircraft(maxWeightArg: Int): Transporter(maxWeightArg) {
-    abstract val brand: String              // марка
-    abstract val model: String              // модель
-    abstract val engineCount: Int           // кол-во двигателей
-    abstract val altitude: Int              // высота полета
-    abstract val rows: Int                  // кол-во рядов
-    abstract val numberOnSeatsInARow: Int   // число кресел в ряду
+    abstract val brand: String              // РјР°СЂРєР°
+    abstract val model: String              // РјРѕРґРµР»СЊ
+    abstract val engineCount: Int           // РєРѕР»-РІРѕ РґРІРёРіР°С‚РµР»РµР№
+    abstract val altitude: Int              // РІС‹СЃРѕС‚Р° РїРѕР»РµС‚Р°
+    abstract val rows: Int                  // РєРѕР»-РІРѕ СЂСЏРґРѕРІ
+    abstract val numberOnSeatsInARow: Int   // С‡РёСЃР»Рѕ РєСЂРµСЃРµР» РІ СЂСЏРґСѓ
 
-//  TODO С помощью функции lazy, мы откладываем инициализацию поля,
-//   значение будет присвоено в момент первого обращения к этому полю.
-//   Как только к нему обращаемся в первый раз происходит выполнение кода в теле {}
+    //  TODO РЎ РїРѕРјРѕС‰СЊСЋ С„СѓРЅРєС†РёРё lazy, РјС‹ РѕС‚РєР»Р°РґС‹РІР°РµРј РёРЅРёС†РёР°Р»РёР·Р°С†РёСЋ РїРѕР»СЏ,
+//   Р·РЅР°С‡РµРЅРёРµ Р±СѓРґРµС‚ РїСЂРёСЃРІРѕРµРЅРѕ РІ РјРѕРјРµРЅС‚ РїРµСЂРІРѕРіРѕ РѕР±СЂР°С‰РµРЅРёСЏ Рє СЌС‚РѕРјСѓ РїРѕР»СЋ.
+//   РљР°Рє С‚РѕР»СЊРєРѕ Рє РЅРµРјСѓ РѕР±СЂР°С‰Р°РµРјСЃСЏ РІ РїРµСЂРІС‹Р№ СЂР°Р· РїСЂРѕРёСЃС…РѕРґРёС‚ РІС‹РїРѕР»РЅРµРЅРёРµ РєРѕРґР° РІ С‚РµР»Рµ {}
     protected val seatScheme by lazy{
         List(rows) {
             MutableList<Passenger?>(numberOnSeatsInARow) {
@@ -19,28 +19,28 @@ abstract class Aircraft(maxWeightArg: Int): Transporter(maxWeightArg) {
         }
     }
 
-    // Добавить пассажира
+    // Р”РѕР±Р°РІРёС‚СЊ РїР°СЃСЃР°Р¶РёСЂР°
     fun addPassenger(passenger: Passenger) {
         val row = passenger.seat.row
-        // Вычитаем, чтобы получить номер символа в массиве от 0 (A) и делее.
+        // Р’С‹С‡РёС‚Р°РµРј, С‡С‚РѕР±С‹ РїРѕР»СѓС‡РёС‚СЊ РЅРѕРјРµСЂ СЃРёРјРІРѕР»Р° РІ РјР°СЃСЃРёРІРµ РѕС‚ 0 (A) Рё РґРµР»РµРµ.
         val number = passenger.seat.letter - 'A'
-        //  Поместим нашего пассажира в двумерную матрицу
+        //  РџРѕРјРµСЃС‚РёРј РЅР°С€РµРіРѕ РїР°СЃСЃР°Р¶РёСЂР° РІ РґРІСѓРјРµСЂРЅСѓСЋ РјР°С‚СЂРёС†Сѓ
         seatScheme[row][number] = passenger
     }
 
-    //  Получить пассажира
+    //  РџРѕР»СѓС‡РёС‚СЊ РїР°СЃСЃР°Р¶РёСЂР°
     fun getPassenger(seat: Seat) : Passenger? {
         val row = seat.row
         val number = seat.letter - 'A'
         return seatScheme[row][number]
     }
 
-    //  Вывести в консоль схему рассадки пассажиров
+    //  Р’С‹РІРµСЃС‚Рё РІ РєРѕРЅСЃРѕР»СЊ СЃС…РµРјСѓ СЂР°СЃСЃР°РґРєРё РїР°СЃСЃР°Р¶РёСЂРѕРІ
     abstract fun getSeatScheme()
 
-    //  Вывести информацию
-    //  TODO Чтобы сохранить отступ в многострочных строках, используйте trimIndent, когда результирующая строка
-    //   не требует внутреннего отступа, и trimMargin, когда требуется внутренний отступ.
+    //  Р’С‹РІРµСЃС‚Рё РёРЅС„РѕСЂРјР°С†РёСЋ
+    //  TODO Р§С‚РѕР±С‹ СЃРѕС…СЂР°РЅРёС‚СЊ РѕС‚СЃС‚СѓРї РІ РјРЅРѕРіРѕСЃС‚СЂРѕС‡РЅС‹С… СЃС‚СЂРѕРєР°С…, РёСЃРїРѕР»СЊР·СѓР№С‚Рµ trimIndent, РєРѕРіРґР° СЂРµР·СѓР»СЊС‚РёСЂСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
+    //   РЅРµ С‚СЂРµР±СѓРµС‚ РІРЅСѓС‚СЂРµРЅРЅРµРіРѕ РѕС‚СЃС‚СѓРїР°, Рё trimMargin, РєРѕРіРґР° С‚СЂРµР±СѓРµС‚СЃСЏ РІРЅСѓС‚СЂРµРЅРЅРёР№ РѕС‚СЃС‚СѓРї.
     fun getInfo() =
         """Aircraft: $brand $model
             |Max Weight: $maxWeight
@@ -49,12 +49,12 @@ abstract class Aircraft(maxWeightArg: Int): Transporter(maxWeightArg) {
             |Number of seat in a row: $numberOnSeatsInARow
         """.trimMargin()
 
-    //  Функция перелета
+    //  Р¤СѓРЅРєС†РёСЏ РїРµСЂРµР»РµС‚Р°
     override fun move() {
         println("Aircraft flying")
     }
 
-    // Проверка свободных мест и возврат результата
+    // РџСЂРѕРІРµСЂРєР° СЃРІРѕР±РѕРґРЅС‹С… РјРµСЃС‚ Рё РІРѕР·РІСЂР°С‚ СЂРµР·СѓР»СЊС‚Р°С‚Р°
     fun getAvailableSeat(): Seat? {
         val availableSeat = mutableListOf<Seat>()
         seatScheme.forEachIndexed { rowIndex, row ->
@@ -64,9 +64,8 @@ abstract class Aircraft(maxWeightArg: Int): Transporter(maxWeightArg) {
             }
         }
         availableSeat.forEach() {
-            println("Ряд ${it.row} Место ${it.letter}")
+            println("Р СЏРґ ${it.row} РњРµСЃС‚Рѕ ${it.letter}")
         }
-    // Вернуть свободное случайное место
-    return availableSeat.randomOrNull()
+        return availableSeat.randomOrNull() // Р’РµСЂРЅСѓС‚СЊ СЃРІРѕР±РѕРґРЅРѕРµ СЃР»СѓС‡Р°Р№РЅРѕРµ РјРµСЃС‚Рѕ
     }
 }
